@@ -1,4 +1,15 @@
 # 🦞 OpenClaw — Personal AI Assistant
+#│  Recommended baseline:                                                                  │
+│ # - Pairing/allowlists + mention gating.                                                 │
+│  #- Sandbox + least-privilege tools.                                                     │
+│  #- Keep secrets out of the agent’s reachable filesystem.                                │
+│  #- Use the strongest available model for any bot with tools or untrusted inboxes.       │
+│                                                                                         │
+│  #Run regularly:                                                                         │
+│  #openclaw security audit --deep                                                         │
+│  #openclaw security audit --fix                                                          │
+│                                                                                         │
+│ # Must read: https://docs.openclaw.ai/gateway/security  
 
 <p align="center">
     <picture>
