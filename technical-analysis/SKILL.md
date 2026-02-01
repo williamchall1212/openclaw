@@ -48,7 +48,7 @@ python3 ./technical-analysis/scripts/analyze.py TSLA
 Returns JSON with:
 - Current price and recent price action
 - SMA (20, 50, 200-day)
-- EMA (12, 26-day)
+- EMA (8, 10, 21-day)
 - RSI (14-day)
 - MACD (12, 26, 9)
 - Bollinger Bands (20-day, 2 std dev)
@@ -112,8 +112,9 @@ All commands return JSON for easy parsing by the agent. Example output:
   "sma_20": 238.75,
   "sma_50": 235.20,
   "sma_200": 220.45,
-  "ema_12": 240.15,
-  "ema_26": 237.80,
+  "ema_8": 241.30,
+  "ema_10": 240.15,
+  "ema_21": 237.80,
   "rsi_14": 58.3,
   "macd": 2.35,
   "macd_signal": 1.85,
@@ -183,6 +184,15 @@ When you receive unusual options activity:
 - RSI trending down
 - MACD negative
 - → Consider: Protective puts at support levels, 30-60 DTE
+
+**Bearish Setup (Selling Calls / Call Spreads):**
+- Price below 50-day SMA (confirmed downtrend)
+- Price below 20-day SMA (short-term weakness)
+- → Consider: Selling naked calls or bear call spreads at or above resistance levels, 30-45 DTE
+- Strike selection: Sell the short call at or just above the nearest resistance level
+- For call spreads: Buy a further OTM call as a hedge (spread width of $5-$10 depending on stock price)
+- Higher conviction if price is also below 200-day SMA (long-term bearish)
+- Avoid if RSI < 20 (oversold bounce risk) or if earnings are within the expiration window
 
 **Range-Bound Setup:**
 - Price oscillating between support/resistance
