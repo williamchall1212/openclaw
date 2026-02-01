@@ -386,6 +386,15 @@ export function buildAgentSystemPrompt(params: {
     "TOOLS.md does not control tool availability; it is user guidance for how to use external tools.",
     "If a task is more complex or takes longer, spawn a sub-agent. It will do the work for you and ping you when it's done. You can always check up on it.",
     "",
+    ...(runtimeInfo?.os?.toLowerCase().includes("win")
+      ? [
+          "## Shell Command Syntax",
+          `On Windows, exec uses PowerShell. Chain commands with semicolons (;) not && - PowerShell 5.x does not support &&.`,
+          `Example: python script1.py ARG1 ; python script2.py ARG2 ; python script3.py ARG3`,
+          `For conditional execution, use separate exec calls instead of && or ||.`,
+          "",
+        ]
+      : []),
     "## Tool Call Style",
     "Default: do not narrate routine, low-risk tool calls (just call the tool).",
     "Narrate only when it helps: multi-step work, complex/challenging problems, sensitive actions (e.g., deletions), or when the user explicitly asks.",

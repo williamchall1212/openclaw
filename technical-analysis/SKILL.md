@@ -107,6 +107,7 @@ All commands return JSON for easy parsing by the agent. Example output:
   "current_price": 242.50,
   "price_change_1d": 2.3,
   "price_change_pct_1d": 0.96,
+  "day_label": "today",
   "volume": 125000000,
   "sma_20": 238.75,
   "sma_50": 235.20,
@@ -126,6 +127,25 @@ All commands return JSON for easy parsing by the agent. Example output:
   "support_levels": [235.20, 220.45, 210.00],
   "resistance_levels": [250.00, 265.50, 280.00]
 }
+```
+
+### Intelligent Date Handling
+
+The `day_label` field automatically handles market hours:
+- On weekdays when the market was open: `"today"`
+- On weekends or after-hours: the actual day name (e.g., `"Friday"`)
+
+When formatting responses, always use the `day_label` field instead of hardcoding "today":
+
+**Correct formatting:**
+```
+Current Price: $242.50 (+$2.30 / +0.96% today)          # When day_label = "today"
+Current Price: $242.50 (+$2.30 / +0.96% Friday)         # When day_label = "Friday"
+```
+
+**Incorrect formatting:**
+```
+Current Price: $242.50 (+$2.30 / +0.96% today)          # On Saturday (misleading!)
 ```
 
 ## Use Cases for Options Trading
@@ -173,7 +193,14 @@ When you receive unusual options activity:
 
 - All data sourced from Yahoo Finance (free, no API key)
 - Indicators calculated using pandas-ta library
-- Historical data cached for performance
+- **Intelligent incremental caching:**
+  - Cache stored in `technical-analysis/.cache/` directory
+  - Historical data cached permanently (it never changes)
+  - New trading days automatically fetched and appended to cache
+  - Each query uses cached data + fetches only new data since last cache update
+  - Result: Always up-to-date data with minimal API calls
+  - Cache files are automatically managed (no manual cleanup needed)
+  - To force a full refresh, delete the cache file: `rm technical-analysis/.cache/TICKER_PERIOD.pkl`
 - Works with US stocks, ETFs, crypto (BTC-USD), and forex
 - For international stocks, use proper suffix (.L for London, .TO for Toronto, etc.)
 
