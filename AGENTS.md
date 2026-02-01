@@ -176,3 +176,28 @@
 - Publish: `npm publish --access public --otp="<otp>"` (run from the package dir).
 - Verify without local npmrc side effects: `npm view <pkg> version --userconfig "$(mktemp)"`.
 - Kill the tmux session after publish.
+
+## Technical Analysis Table Formatting
+
+When presenting multi-ticker technical analysis results or options flow data, follow the table formatting guidelines in `technical-analysis/TABLE_FORMAT.md`:
+
+- Use properly aligned markdown tables with consistent column widths
+- No extra spaces in table cells - each cell should have content followed immediately by the pipe `|`
+- Do NOT use markdown formatting (like `**Text**`) in ANY data cells - use plain text only
+- Keep spacing uniform across all rows to prevent column misalignment
+- No trailing spaces after cell content
+- Example correct format:
+  ```
+  | Ticker | Price   | Change      | Daily Trend       | Weekly Trend      | Verdict             |
+  |--------|---------|-------------|-------------------|-------------------|---------------------|
+  | META   | $716.50 | -2.95%      | ✅ Above all MAs  | ✅ Above all MAs  | ✅✅ Strong Bull     |
+  | BABA   | $169.56 | -2.69%      | ✅ Above all MAs  | ✅ Above all MAs  | ✅✅ Strong Bull     |
+  ```
+
+  Options flow example:
+  ```
+  | Date        | Type         | Strike | Expiry   | DTE | Contracts | Sentiment |
+  |-------------|--------------|--------|----------|-----|-----------|-----------|
+  | 01-29 11:41 | Puts Sold    | 690P   | 03-06    | 34  | 1,550     | Bullish   |
+  | 01-29 09:58 | Calls Bought | 1100C  | 01-21-28 | 721 | 1,000     | Bullish   |
+  ```
